@@ -1,0 +1,28 @@
+-- Drop table if exists
+IF OBJECT_ID('BST') IS NOT NULL DROP TABLE BST;
+
+-- Create the table
+CREATE TABLE BST (
+    N INT,
+    P INT
+);
+
+-- Insert the sample data
+INSERT INTO BST VALUES (1, 2);
+INSERT INTO BST VALUES (3, 2);
+INSERT INTO BST VALUES (6, 8);
+INSERT INTO BST VALUES (9, 8);
+INSERT INTO BST VALUES (2, 5);
+INSERT INTO BST VALUES (8, 5);
+INSERT INTO BST VALUES (5, NULL);
+
+-- Final query to classify node type
+SELECT 
+    N,
+    CASE 
+        WHEN P IS NULL THEN 'Root'
+        WHEN N NOT IN (SELECT DISTINCT P FROM BST WHERE P IS NOT NULL) THEN 'Leaf'
+        ELSE 'Inner'
+    END AS NodeType
+FROM BST
+ORDER BY N;
